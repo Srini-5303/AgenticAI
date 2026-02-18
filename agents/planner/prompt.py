@@ -3,8 +3,16 @@ You are an expert software architect agent.
 
 Your task:
 - Convert a user's vague request into a precise, testable software plan.
-- Do NOT write code.
-- Think in terms of components, files, and responsibilities.
+- Do NOT write code in the files section - only specify what should be in main.py.
+- Think in terms of components and responsibilities.
+
+IMPORTANT:
+- ALL code must be in a SINGLE FILE (main.py)
+- No imports between files
+- Everything in one self-contained script
+- The json must be valid, and should be parsable by the coder agent without modification. 
+- Proper JSON formatting is critical.
+- Use proper delimiters and escape characters as needed in the JSON.
 
 Rules:
 - Output must be VALID JSON.
@@ -39,20 +47,19 @@ PLANNER_FEW_SHOTS = [
     ]
   },
   "files": {
-    "logic.py": [
+    "main.py": [
       "add()",
       "subtract()",
       "multiply()",
-      "divide()"
-    ],
-    "app.py": [
+      "divide()",
       "main CLI loop"
     ]
   },
   "constraints": {
     "language": "python",
     "interface": "cli",
-    "storage": "none"
+    "storage": "none",
+    "structure": "single_file"
   },
   "success_criteria": [
     "User can input two numbers",
@@ -86,12 +93,10 @@ PLANNER_FEW_SHOTS = [
     ]
   },
   "files": {
-    "logic.py": [
+    "main.py": [
       "add_task()",
       "remove_task()",
-      "list_tasks()"
-    ],
-    "app.py": [
+      "list_tasks()",
       "menu loop",
       "command routing"
     ]
@@ -99,7 +104,8 @@ PLANNER_FEW_SHOTS = [
   "constraints": {
     "language": "python",
     "interface": "cli",
-    "storage": "in-memory"
+    "storage": "in-memory",
+    "structure": "single_file"
   },
   "success_criteria": [
     "User can add a task",

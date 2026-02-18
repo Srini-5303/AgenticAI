@@ -1,5 +1,4 @@
 import subprocess
-import json
 
 
 class OllamaLLM:
@@ -9,18 +8,27 @@ class OllamaLLM:
     def generate(self, system_prompt: str, messages: list) -> str:
         prompt = self._build_prompt(system_prompt, messages)
 
-        result = subprocess.run(
+        process = subprocess.Popen(
             ["ollama", "run", self.model_name],
-            input=prompt,
-            encoding="utf-8",
-            capture_output=True, 
-            errors="replace"
+            stdin=subprocess.PIPE,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            text=True,
+            encoding="utf-8",     
+            errors="replace",
+            bufsize=1
         )
 
-        if result.returncode != 0:
-            raise RuntimeError(result.stderr)
+        try:
+            stdout, stderr = process.communicate(prompt, timeout=120)
+        except subprocess.TimeoutExpired:
+            process.kill()
+            raise RuntimeError("Ollama LLM timed out and was killed")
 
-        return result.stdout.strip()
+        if process.returncode != 0:
+            raise RuntimeError(stderr.strip())
+
+        return stdout.strip()
 
     def _build_prompt(self, system_prompt, messages):
         prompt = f"{system_prompt}\n\n"

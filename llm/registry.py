@@ -3,9 +3,9 @@ from llm.local import OllamaLLM
 
 MODEL_REGISTRY = {
     "planner": OllamaLLM("llama3.1:8b"),
-    "coder": OllamaLLM("deepseek-coder:6.7b"),
-    "verifier": OllamaLLM("mistral:7b"),
-    "documenter": OllamaLLM("qwen2.5:7b")
+    "coder": OllamaLLM("qwen2.5-coder:7b"),
+    # "verifier": OllamaLLM("mistral:7b"),
+    # "documenter": OllamaLLM("qwen2.5:7b")
 }
 
 
